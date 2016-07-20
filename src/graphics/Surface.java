@@ -44,10 +44,13 @@ public class Surface extends JPanel{
         for (int i = 0; i < mapHeight; i++) {
         	for (int j = 0; j < mapWidth; j++){
         		space = noise.getValue(j,  i);
-        		if (space <= 1 && space > .5){
+        		if (space <= 1 && space > .505){
         			square = Color.green;
         		}
-        		else if (space >= 0 && space <= .5){
+        		else if (space <= .505 && space > .495){
+        			square = Color.yellow;
+        		}
+        		else if (space <= .495 && space > 0){
         			square = Color.blue;
         		}
         		else{

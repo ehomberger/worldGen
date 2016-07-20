@@ -9,13 +9,13 @@ import util.Point;
 public class NoiseGen {
 	private int xSize;
 	private int ySize;
-	private double [][] noiseMap;
+	private Point [][] noiseMap;
 	private final int DIFF = 5;			//out of 100
 	private Queue<Point> flood;
 	public NoiseGen(int x, int y){
 		xSize = x;
 		ySize = y;
-		noiseMap = new double[xSize][ySize];
+		noiseMap = new Point[xSize][ySize];
 		flood = new LinkedList();
 	}
 	
@@ -25,8 +25,9 @@ public class NoiseGen {
 		int y = Math.abs(r.nextInt() % ySize);
 		
 		Point next = new Point(x, y);
+		noiseMap[x][y] = next;
 		
-		int offset;
+		double offset;
 		double scaledOffset;
 		
 		flood.add(next);
@@ -35,57 +36,67 @@ public class NoiseGen {
 		int total;
 		
 		while (!flood.isEmpty()){
-			System.out.println(next.x + ", " + next.y);
+			
 			sum = .5;
 			total = 1;
 			next = flood.remove();
+			System.out.println(next.x + ", " + next.y);
 			
 			if (next.x > 0){
-				if (noiseMap[next.x - 1][next.y] != 0){ 
+				if (noiseMap[next.x - 1][next.y] == null){ 
+					noiseMap[next.x - 1][next.y] = new Point(next.x - 1, next.y);
+					System.out.println("added " + (next.x - 1) + ", " + next.y);
+					flood.add(noiseMap[next.x - 1][next.y]);
+				}
+				else if (noiseMap[next.x - 1][next.y].value != 0){
 					total++;
-					sum += noiseMap[next.x - 1][next.y];
+					sum += noiseMap[next.x - 1][next.y].value;
 				}
-				else{
-					flood.add(new Point(next.x - 1, next.y));
-				}
+				
 			}
 			if (next.x < xSize - 1){
-				if (noiseMap[next.x + 1][next.y] != 0){
-					total++;
-					sum += noiseMap[next.x + 1][next.y];
+				if (noiseMap[next.x + 1][next.y] == null){ 
+					noiseMap[next.x + 1][next.y] = new Point(next.x + 1, next.y);
+					System.out.println("added " + (next.x + 1) + ", " + next.y);
+					flood.add(noiseMap[next.x + 1][next.y]);
 				}
-				else{
-					flood.add(new Point(next.x + 1, next.y));
+				else if (noiseMap[next.x + 1][next.y].value != 0){
+					total++;
+					sum += noiseMap[next.x + 1][next.y].value;
 				}
 			}
 			if (next.y > 0){
-				if (noiseMap[next.x][next.y - 1] != 0){
-					total++;
-					sum += noiseMap[next.x][next.y - 1];
+				if (noiseMap[next.x][next.y - 1] == null){ 
+					noiseMap[next.x][next.y - 1] = new Point(next.x, next.y - 1);
+					System.out.println("added " + next.x + ", " + (next.y - 1));
+					flood.add(noiseMap[next.x][next.y - 1]);
 				}
-				else{
-					flood.add(new Point(next.x, next.y - 1));
+				else if (noiseMap[next.x][next.y - 1].value != 0){
+					total++;
+					sum += noiseMap[next.x][next.y - 1].value;
 				}
 			}
 			if (next.y < ySize - 1){
-				if (noiseMap[next.x][next.y + 1] != 0){
-					total++;
-					sum += noiseMap[next.x][next.y + 1];
+				if (noiseMap[next.x][next.y + 1] == null){ 
+					noiseMap[next.x][next.y + 1] = new Point(next.x, next.y + 1);
+					
+					flood.add(noiseMap[next.x][next.y + 1]);
 				}
-				else{
-					flood.add(new Point(next.x, next.y + 1));
+				else if (noiseMap[next.x][next.y + 1].value != 0){
+					total++;
+					sum += noiseMap[next.x][next.y + 1].value;
 				}
 			}
 			
 			
-			offset = (Math.abs(r.nextInt() % 11)) - 5;
-			noiseMap[next.x][next.y] = (sum/total) + (offset/100);
-			System.out.println(noiseMap[next.x][next.y]);
+			offset = (Math.abs(r.nextInt() % 6)) - 2.5;
+			noiseMap[next.x][next.y].value = (sum/total) + (offset/100);
+			System.out.println(noiseMap[next.x][next.y].value);
 		}
 		
 	}
 	
 	public double getValue(int x, int y){
-		return noiseMap[x][y];
+		return noiseMap[x][y].value;
 	}
 }
