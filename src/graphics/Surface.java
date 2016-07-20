@@ -11,13 +11,17 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import game.Map;
+import game.NoiseGen;
 import game.Tile;
 
 public class Surface extends JPanel{
     private Map map;
+    private NoiseGen noise;
 
     public Surface(Map map) {
     	this.map = map;
+    	noise = new NoiseGen(100, 100);
+    	noise.genMap();
     }
     
     private void doDrawing(Graphics g) {
@@ -35,24 +39,19 @@ public class Surface extends JPanel{
         int subX = w/mapWidth;
         int subY = h/mapHeight;
         
-        Tile space;
+        double space;
 
         for (int i = 0; i < mapHeight; i++) {
         	for (int j = 0; j < mapWidth; j++){
-        		space = map.getTile(j, i);
-        		switch(space.getType()){
-        			case 0:
-        				square = Color.blue;
-        				break;
-        				
-        			case 1:
-        				square = Color.green;
-        				break;
-        				
-        				
-        			default:
-        				square = Color.red;
-        				break;
+        		space = noise.getValue(j,  i);
+        		if (space <= 1 && space > .5){
+        			square = Color.green;
+        		}
+        		else if (space >= 0 && space <= .5){
+        			square = Color.blue;
+        		}
+        		else{
+        			square = Color.red;
         		}
         		
         		g2d.setPaint(square);
