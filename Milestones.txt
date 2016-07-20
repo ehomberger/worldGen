@@ -13,6 +13,7 @@ v0.00
 v0.1: add resources/ability for houses to 'die'
 	v0.11: add overlays
 v0.2: add ability to move
+v0.3: sprites
 
 WishList:
 	biomes?
