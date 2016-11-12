@@ -6,7 +6,8 @@ import java.util.Random;
 
 import util.Point;
 
-public class NoiseGen {
+public class NoiseGen 
+{
 	private int xSize;
 	private int ySize;
 	private Point [][] noiseMap;
@@ -19,7 +20,9 @@ public class NoiseGen {
 		flood = new LinkedList();
 	}
 	
-	public void genMap(){
+	// where we generate the noise
+	public void genMap()
+	{
 		Random r = new Random();
 		int x = Math.abs(r.nextInt() % xSize);
 		int y = Math.abs(r.nextInt() % ySize);
@@ -35,14 +38,15 @@ public class NoiseGen {
 		double sum;
 		int total;
 		
-		while (!flood.isEmpty()){
-			
-			sum = .5;
-			total = 1;
-			next = flood.remove();
+		while (!flood.isEmpty())
+		{	
+			sum   = .5;
+			total =  1;
+			next  = flood.remove();
 			System.out.println(next.x + ", " + next.y);
 			
-			if (next.x > 0){
+			if (next.x > 0)
+			{
 				if (noiseMap[next.x - 1][next.y] == null){ 
 					noiseMap[next.x - 1][next.y] = new Point(next.x - 1, next.y);
 					System.out.println("added " + (next.x - 1) + ", " + next.y);
@@ -54,7 +58,8 @@ public class NoiseGen {
 				}
 				
 			}
-			if (next.x < xSize - 1){
+			if (next.x < xSize - 1)
+			{
 				if (noiseMap[next.x + 1][next.y] == null){ 
 					noiseMap[next.x + 1][next.y] = new Point(next.x + 1, next.y);
 					System.out.println("added " + (next.x + 1) + ", " + next.y);
@@ -65,7 +70,8 @@ public class NoiseGen {
 					sum += noiseMap[next.x + 1][next.y].value;
 				}
 			}
-			if (next.y > 0){
+			if (next.y > 0)
+			{
 				if (noiseMap[next.x][next.y - 1] == null){ 
 					noiseMap[next.x][next.y - 1] = new Point(next.x, next.y - 1);
 					System.out.println("added " + next.x + ", " + (next.y - 1));
@@ -76,7 +82,8 @@ public class NoiseGen {
 					sum += noiseMap[next.x][next.y - 1].value;
 				}
 			}
-			if (next.y < ySize - 1){
+			if (next.y < ySize - 1)
+			{
 				if (noiseMap[next.x][next.y + 1] == null){ 
 					noiseMap[next.x][next.y + 1] = new Point(next.x, next.y + 1);
 					
@@ -96,7 +103,8 @@ public class NoiseGen {
 		
 	}
 	
-	public double getValue(int x, int y){
+	public double getValue(int x, int y)
+	{
 		return noiseMap[x][y].value;
 	}
 }
