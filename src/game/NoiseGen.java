@@ -47,12 +47,14 @@ public class NoiseGen
 			
 			if (next.x > 0)
 			{
-				if (noiseMap[next.x - 1][next.y] == null){ 
+				if (noiseMap[next.x - 1][next.y] == null)
+				{ 
 					noiseMap[next.x - 1][next.y] = new Point(next.x - 1, next.y);
 					System.out.println("added " + (next.x - 1) + ", " + next.y);
 					flood.add(noiseMap[next.x - 1][next.y]);
 				}
-				else if (noiseMap[next.x - 1][next.y].value != 0){
+				else if (noiseMap[next.x - 1][next.y].value != 0)
+				{
 					total++;
 					sum += noiseMap[next.x - 1][next.y].value;
 				}
@@ -60,24 +62,28 @@ public class NoiseGen
 			}
 			if (next.x < xSize - 1)
 			{
-				if (noiseMap[next.x + 1][next.y] == null){ 
+				if (noiseMap[next.x + 1][next.y] == null)
+				{ 
 					noiseMap[next.x + 1][next.y] = new Point(next.x + 1, next.y);
 					System.out.println("added " + (next.x + 1) + ", " + next.y);
 					flood.add(noiseMap[next.x + 1][next.y]);
 				}
-				else if (noiseMap[next.x + 1][next.y].value != 0){
+				else if (noiseMap[next.x + 1][next.y].value != 0)
+				{
 					total++;
 					sum += noiseMap[next.x + 1][next.y].value;
 				}
 			}
 			if (next.y > 0)
 			{
-				if (noiseMap[next.x][next.y - 1] == null){ 
+				if (noiseMap[next.x][next.y - 1] == null)
+				{ 
 					noiseMap[next.x][next.y - 1] = new Point(next.x, next.y - 1);
 					System.out.println("added " + next.x + ", " + (next.y - 1));
 					flood.add(noiseMap[next.x][next.y - 1]);
 				}
-				else if (noiseMap[next.x][next.y - 1].value != 0){
+				else if (noiseMap[next.x][next.y - 1].value != 0)
+				{
 					total++;
 					sum += noiseMap[next.x][next.y - 1].value;
 				}
