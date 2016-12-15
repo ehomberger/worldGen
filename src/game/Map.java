@@ -11,7 +11,7 @@ public class Map
 	
 	public Map(int x, int y)
 	{
-		xSize = x;
+		xSize = x; 			// Number of squares in this world in the x
 		ySize = y;
 		world = new Tile[xSize][ySize];
 	}
@@ -21,6 +21,7 @@ public class Map
 	{
 		Random r = new Random();
 		int rand;
+		
 		for (int i = 0; i < ySize; i++)
 		{
 			for (int j = 0; j < xSize; j++)

@@ -13,4 +13,8 @@ public class Point {
 		this.y = y;
 		value = 0;
 	}
+
+	public double getValue(){
+		return value;
+	}
 }

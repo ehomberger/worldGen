@@ -14,8 +14,8 @@ import graphics.Surface;
 public class MainLoop extends JFrame 
 {
 	private Map map;
-	private final int MAPHEIGHT = 101;
-	private final int MAPWIDTH  = 101;
+	private final int MAP_HEIGHT = 10;
+	private final int MAP_WIDTH  = 10;
 	
 	// 
 	public MainLoop() 
@@ -25,17 +25,22 @@ public class MainLoop extends JFrame
 	
 	// Set up UI
 	private void initUI() {
-		// create a new map object 
-		map = new Map(MAPWIDTH, MAPHEIGHT);
+		// create a new map object
+		// mapwidth, mapheight are number of squares per x and y 
+		map = new Map(MAP_WIDTH, MAP_HEIGHT);
+
 		// generate noise in that map
+		// this completely does nothing important right now
 		map.genMap();
+		
 		// create a surface from that map
 		final Surface surface = new Surface(map);
+		
 		// add that surface to the screen
 		add(surface);
 		
-		setTitle("map");	 // window name
-		setSize(1500, 1000); // window size
+		setTitle("NoiseMap");	 // window name
+		setSize(500, 500); // window size
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
