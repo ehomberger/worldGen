@@ -1,5 +1,8 @@
 package util;
 
+// Land if point > .505
+// Water if point < .495
+// Sand everywhere else
 public class Point {
 	public int x;
 	public int y;
@@ -9,5 +12,9 @@ public class Point {
 		this.x = x;
 		this.y = y;
 		value = 0;
+	}
+
+	public double getValue(){
+		return value;
 	}
 }

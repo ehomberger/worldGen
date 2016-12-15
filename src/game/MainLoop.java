@@ -10,39 +10,53 @@ import javax.swing.Timer;
 
 import graphics.Surface;
 
-public class MainLoop extends JFrame {
+// 
+public class MainLoop extends JFrame 
+{
 	private Map map;
 	private final int MAPHEIGHT = 100;
 	private final int MAPWIDTH = 100;
 	
-	public MainLoop() {
+	// 
+	public MainLoop() 
+	{
         initUI();
     }
 	
-	
+	// Set up UI
+	private void initUI() {
+		// create a new map object
+		// mapwidth, mapheight are number of squares per x and y 
+		map = new Map(MAP_WIDTH, MAP_HEIGHT);
 
-	  private void initUI() {
-		    map = new Map(MAPWIDTH, MAPHEIGHT);
-		    map.genMap();
-		    final Surface surface = new Surface(map);
-	        add(surface);
-	        
-		    setTitle("map");
-		    setSize(1400, 1000);
-		    setLocationRelativeTo(null);
-		    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    }
+		// generate noise in that map
+		// this completely does nothing important right now
+		map.genMap();
+		
+		// create a surface from that map
+		final Surface surface = new Surface(map);
+		
+		// add that surface to the screen
+		add(surface);
+		
+		setTitle("NoiseMap");	 // window name
+		setSize(500, 500); // window size
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 
-
-    public static void main(String[] args) {
-	EventQueue.invokeLater(new Runnable() {
-	        @Override
-	        public void run() {
+	// just the main loop
+    public static void main(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+	        @Override 
+			public void run() {
 	            MainLoop ex = new MainLoop();
 	            ex.setVisible(true);
 	        }
-	    });
-
-	}
+	    }
+		);
+	} // end of main
 
 }

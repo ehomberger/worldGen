@@ -25,30 +25,38 @@ public class Surface extends JPanel
     // Create a new map
     public Surface(Map map) 
     {
-    	this.map = map;
-    	noise = new NoiseGen(map.xSize, map.ySize);
-    	noise.genMap();
+        this.map = map;
+        // we're literally only using map for its x and y size right now
+        noise = new NoiseGen(map.xSize, map.ySize);
+        noise.genMap();
+        System.out.println("Created new Surface w/ size = " + map.xSize + "x" + map.ySize);
     }
     
     // assign the colors to the map
     private void doDrawing(Graphics g) 
     {
+        System.out.println("Inside doDrawing()...");
         // java stuff
         Graphics2D g2d = (Graphics2D) g;
 
         Color square;
         
         // Probably something in JPanel
-        int screenWidth  = getWidth();
-        int screenHeight = getHeight();
+        int w = getWidth();
+        int h = getHeight();
+        System.out.println("wxh = " + w + "x" + h);
 
         // the size of the map we said we wanted to make
-        int mapWidth  = map.xSize;
-        int mapHeight = map.ySize;
+        // !! xSize was map.xSize, y was...
+        int mapWidth  = map.xSize; // width;
+        int mapHeight = map.ySize; // height;
+        System.out.println("mapWidthxmapHeight = " + mapWidth + "x" + mapHeight);
         
         // Size of the rectangles
-        int tileDrawWidth  = screenWidth  / mapWidth;
-        int tileDrawHeight = screenHeight / mapHeight;
+        int subX = w/mapWidth;
+        int subY = h/mapHeight;
+        System.out.println("Rectangles = " + subX + "x" + subY);
+
         
         double space;
 
@@ -57,7 +65,7 @@ public class Surface extends JPanel
         	for (int j = 0; j < mapWidth; j++)
             {
         		space = noise.getValue(j,  i);
-        		
+        		System.out.println("Space = " + space);
                 if (space <= 1 && space > .505)
                 {
         			square = Color.green;
@@ -75,9 +83,9 @@ public class Surface extends JPanel
         			square = Color.red;
         		}
         		
-        		g2d.setPaint(square);
-        	
-        		g2d.fillRect(j * tileDrawWidth, i * tileDrawHeight, tileDrawWidth, tileDrawHeight);
+                g2d.setPaint(square);
+            
+                System.out.println("Rectangle Position: " + j*subX + ", " + i*subY);
         	}
         }
     }
