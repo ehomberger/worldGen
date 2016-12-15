@@ -5,9 +5,10 @@ TODO:
 Planned milestones:
 v0.00
 	v0.01(Done): the ability to view an array as a graphical map 
-	v0.02: randomly generate map
-		v0.021: add rivers
-		v0.022: randomly add houses
+	v0.02(Done): randomly generate map
+		v0.021: generate map using prebuilt noise
+		v0.022: add rivers
+		v0.023: randomly add houses
 	v0.03: Define random cities
 	v0.031: be able to name them
 v0.1: add resources/ability for houses to 'die'

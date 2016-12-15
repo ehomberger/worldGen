@@ -14,8 +14,8 @@ import graphics.Surface;
 public class MainLoop extends JFrame 
 {
 	private Map map;
-	private final int MAP_HEIGHT = 10;
-	private final int MAP_WIDTH  = 10;
+	private final int MAPHEIGHT = 100;
+	private final int MAPWIDTH = 100;
 	
 	// 
 	public MainLoop() 
