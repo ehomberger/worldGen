@@ -14,21 +14,21 @@ public class Tile {
 
 	// Static Variables
 	private static HashMap<String,Color> TileMap = new HashMap();
-	private static String[] TypeNames = 
+	public static final String[] TypeNames = 
 	{ 
 		"Undefined",
 		"Water",
 		"Sand",
 		"Grass"
 	};
-	private static double[] TypeValues = 
+	public static final double[] TypeValues = 
 	{
-		0,
-		0.25,
-		0.5,
-		0.75
+		0.0,
+		0.1,
+		0.3,
+		0.6
 	};
-	private static Color[] TypeColors = 
+	public static final Color[] TypeColors = 
 	{
 		Color.red,
 		Color.blue,

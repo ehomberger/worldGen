@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import util.Noise;
+
 // Map Class, just used for generating size of screen
 public class Map 
 {
@@ -17,6 +19,45 @@ public class Map
 		xResolution = x;
 		yResolution = y;
 		world = new Tile[xResolution][yResolution];
+	}
+
+	// Create map with all zeros
+	public void fillWithZeros()
+	{
+		for(int i = 0; i < xResolution; i++)
+			for(int j = 0; j < yResolution; j++)
+				world[i][j] = new Tile(i, j, 0);
+	}
+
+	// Use Noise class's smoothNoise function
+	public void generatePerlinNoise()
+	{
+		float[][] whiteNoise  = Noise.generateWhiteNoise(xResolution, yResolution);
+		float[][] perlinNoise = Noise.generatePerlinNoise(whiteNoise, 8);
+
+		for(int i = 0; i < xResolution; i++)
+		{
+			for(int j = 0; j < yResolution; j++)
+			{
+				world[i][j].setValue((double)perlinNoise[i][j] * 2);
+				System.out.println("(" + i + ", " + j + "): " + world[i][j].value);
+			}
+		}
+	}	
+
+	// Use Noise class's smoothNoise function
+	public void generateSmoothNoise()
+	{
+		float[][] whiteNoise  = Noise.generateWhiteNoise(xResolution, yResolution);
+		float[][] smoothNoise = Noise.generateSmoothNoise(whiteNoise, 0);
+
+		for(int i = 0; i < xResolution; i++)
+		{
+			for(int j = 0; j < yResolution; j++)
+			{
+				world[i][j].setValue((double)smoothNoise[i][j]);
+			}
+		}
 	}
 
 	// Draw the map

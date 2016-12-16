@@ -11,13 +11,13 @@ import javax.swing.Timer;
 import graphics.Surface;
 
 // 
-public class MainLoop extends JFrame 
+public class MainLoop extends JFrame
 {
 	private Map map;
-	private final int MAP_HEIGHT = 20;
-	private final int MAP_WIDTH  = 20;
-	private final int WINDOW_HEIGHT = 520 + 16;
-	private final int WINDOW_WIDTH  = 520 + 39;
+	private static int MAP_HEIGHT = 25;
+	private static int MAP_WIDTH  = 25;
+	private final int WINDOW_HEIGHT = 800 + 16;
+	private final int WINDOW_WIDTH  = 1000 + 39;
 	
 	// 
 	public MainLoop() 
@@ -32,9 +32,11 @@ public class MainLoop extends JFrame
 
 		// create a surface from that map
 		final Surface surface = new Surface(map);
+		map.fillWithZeros();
 		
 		// generate noise in that map
-		map.genMap();
+		// map.genMap();
+		map.generatePerlinNoise();
 		
 		// add that surface to the screen
 		add(surface);
@@ -48,6 +50,12 @@ public class MainLoop extends JFrame
 	// just the main loop
     public static void main(String[] args) 
 	{
+		if( args.length != 0 )
+		{
+			MAP_WIDTH  = Integer.parseInt( args[0] );
+			MAP_HEIGHT = Integer.parseInt( args[1] ); 
+		}
+
 		EventQueue.invokeLater(new Runnable() 
 		{
 	        @Override 

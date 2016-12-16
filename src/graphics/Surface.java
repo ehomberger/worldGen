@@ -58,14 +58,14 @@ public class Surface extends JPanel
             {
                 tileValue = map.getValue(x, y);
 
-                if( tileValue < 0.5 )
-                    tileColor = Color.blue;
-                else if( tileValue < 0.6 )
-                    tileColor = Color.yellow;
-                else if( tileValue < 0.7 )
-                    tileColor = Color.green;
+                if( tileValue < Tile.TypeValues[0] )
+                    tileColor = Tile.TypeColors[0];
+                else if( tileValue < Tile.TypeValues[1] )
+                    tileColor = Tile.TypeColors[1];
+                else if( tileValue < Tile.TypeValues[2] )
+                    tileColor = Tile.TypeColors[2];
                 else
-                    tileColor = Color.red;
+                    tileColor = Tile.TypeColors[3];
              
                 g2d.setPaint(tileColor);
                 
