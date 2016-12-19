@@ -36,7 +36,7 @@ public class Map
 		double average = 0;
 		double tiles = xResolution * yResolution;
 		float[][] whiteNoise  = Noise.generateWhiteNoise(xResolution, yResolution);
-		float[][] perlinNoise = Noise.generatePerlinNoise(whiteNoise, 8);
+		float[][] perlinNoise = Noise.generatePerlinNoise(whiteNoise, 6);
 
 		for(int i = 0; i < xResolution; i++)
 		{
@@ -52,7 +52,7 @@ public class Map
 				
 				average += pVal;
 				
-				System.out.println("(" + i + ", " + j + "): " + world[i][j].value);
+				// System.out.println("(" + i + ", " + j + "): " + world[i][j].value);
 			}
 		}
 		average = average / tiles;
@@ -60,6 +60,7 @@ public class Map
 	}	
 
 	// Use Noise class's smoothNoise function
+	// Should probably just delete this, not really useful at all
 	public void generateSmoothNoise()
 	{
 		float[][] whiteNoise  = Noise.generateWhiteNoise(xResolution, yResolution);
@@ -69,6 +70,7 @@ public class Map
 		{
 			for(int j = 0; j < yResolution; j++)
 			{
+				// if you're reading this, it's too late and this is probably why everything is red
 				world[i][j].setValue((double)smoothNoise[i][j]);
 			}
 		}

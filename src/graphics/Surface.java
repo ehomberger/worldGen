@@ -29,7 +29,7 @@ public class Surface extends JPanel
     }
     
     // assign the colors to the map
-    private void doDrawing(Graphics g) 
+    private void drawSurface(Graphics g) 
     {
         // java stuff
         Graphics2D g2d = (Graphics2D) g;
@@ -90,6 +90,6 @@ public class Surface extends JPanel
     public void paintComponent(Graphics g) 
     {
         super.paintComponent(g);
-        doDrawing(g);
+        drawSurface(g);
     }
 }

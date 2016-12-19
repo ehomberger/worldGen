@@ -72,7 +72,7 @@ public class Noise
 
 		float[][][] smoothNoise = new float[octaveCount][][];
 
-		float persistance = 0.5f;
+		float persistance = 0.6f;
 
 		// generate smooth noise layers
 		for(int i = 0; i < octaveCount; i++)
@@ -90,7 +90,7 @@ public class Noise
 			totalAmplitude += amplitude;
 
 			for(int i = 0; i < width; i++)
-				for(int j = 0; j < width; j++)
+				for(int j = 0; j < height; j++)
 					perlinNoise[i][j] += smoothNoise[octave][i][j] * amplitude;
 		}
 

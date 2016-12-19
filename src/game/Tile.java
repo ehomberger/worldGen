@@ -19,6 +19,7 @@ public class Tile {
 		"Undefined",
 		"Water",
 		"Sand",
+		"Stone",
 		"Grass"
 	};
 	public static final double[] TypeValues = 
@@ -26,6 +27,7 @@ public class Tile {
 		0.0,
 		0.5,
 		0.55,
+		0.55, // this is just going to disable the stone/gray altogether
 		0.7
 	};
 	public static final Color[] TypeColors = 
@@ -33,6 +35,7 @@ public class Tile {
 		Color.red,
 		Color.blue,
 		Color.yellow,
+		Color.gray,
 		Color.green
 	};
 
@@ -118,8 +121,11 @@ public class Tile {
 			case "Sand" :
 				this.color = TypeColors[2];
 				break;
-			case "Grass" :
+			case "Stone" :
 				this.color = TypeColors[3];
+				break;
+			case "Grass" :
+				this.color = TypeColors[4];
 				break;
 			default :
 				this.color = Color.pink;
@@ -159,8 +165,10 @@ public class Tile {
             tileColor = TypeColors[1];
         else if( tileValue < Tile.TypeValues[2] )
             tileColor = Tile.TypeColors[2];
-        else
+        else if( tileValue < Tile.TypeValues[3] )
             tileColor = Tile.TypeColors[3];
+        else
+        	tileColor = Tile.TypeColors[4];
 
         color = tileColor;
 	}
