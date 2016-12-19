@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.awt.Color;
 
 import util.Noise;
 
@@ -32,6 +33,8 @@ public class Map
 	// Use Noise class's smoothNoise function
 	public void generatePerlinNoise()
 	{
+		double average = 0;
+		double tiles = xResolution * yResolution;
 		float[][] whiteNoise  = Noise.generateWhiteNoise(xResolution, yResolution);
 		float[][] perlinNoise = Noise.generatePerlinNoise(whiteNoise, 8);
 
@@ -39,10 +42,21 @@ public class Map
 		{
 			for(int j = 0; j < yResolution; j++)
 			{
-				world[i][j].setValue((double)perlinNoise[i][j] * 2);
+				float pVal = perlinNoise[i][j];
+				
+				// world[i][j] = new Tile(i, j, 
+				// 	new Color(pVal, 0, 0),
+				// 	pVal);
+
+				world[i][j] = new Tile(i, j, pVal);
+				
+				average += pVal;
+				
 				System.out.println("(" + i + ", " + j + "): " + world[i][j].value);
 			}
 		}
+		average = average / tiles;
+		System.out.println("Average of " + tiles + " tiles is " + average + ".");
 	}	
 
 	// Use Noise class's smoothNoise function
@@ -181,5 +195,8 @@ public class Map
 	}
 	public double getValue(int x, int y){
 		return world[x][y].value;
+	}
+	public Color getColor(int x, int y){
+		return world[x][y].getColor();
 	}
 } // end of map class

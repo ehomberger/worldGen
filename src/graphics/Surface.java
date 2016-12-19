@@ -56,6 +56,9 @@ public class Surface extends JPanel
         {
             for (int x = 0; x < mapWidth; x++)
             {
+                // The commented code is useless, since Tile objects
+                // already have color assigned at instantiation
+                /*
                 tileValue = map.getValue(x, y);
 
                 if( tileValue < Tile.TypeValues[0] )
@@ -66,7 +69,10 @@ public class Surface extends JPanel
                     tileColor = Tile.TypeColors[2];
                 else
                     tileColor = Tile.TypeColors[3];
-             
+                */
+
+                tileColor = map.getColor(x, y);
+
                 g2d.setPaint(tileColor);
                 
                 g2d.fill(new Rectangle2D.Double(

@@ -72,9 +72,9 @@ public class Noise
 
 		float[][][] smoothNoise = new float[octaveCount][][];
 
-		float persistance = 0.7f;
+		float persistance = 0.5f;
 
-		// generate smooth noise
+		// generate smooth noise layers
 		for(int i = 0; i < octaveCount; i++)
 			smoothNoise[i] = generateSmoothNoise(baseNoise, i);
 
@@ -83,6 +83,7 @@ public class Noise
 		float totalAmplitude = 0.0f;
 
 		// will it blend?
+		// blend all of the layers together. Peristence comes into play here
 		for(int octave = octaveCount - 1; octave >= 0; octave--)
 		{
 			amplitude *= persistance;
@@ -90,7 +91,7 @@ public class Noise
 
 			for(int i = 0; i < width; i++)
 				for(int j = 0; j < width; j++)
-					perlinNoise[i][j] = smoothNoise[octave][i][j] * amplitude;
+					perlinNoise[i][j] += smoothNoise[octave][i][j] * amplitude;
 		}
 
 		// normalize

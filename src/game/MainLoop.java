@@ -29,14 +29,15 @@ public class MainLoop extends JFrame
 	private void initUI() {
 		// create a new map object
 		map = new Map(MAP_WIDTH, MAP_HEIGHT);
-
+		map.generatePerlinNoise();
 		// create a surface from that map
-		final Surface surface = new Surface(map);
-		map.fillWithZeros();
+		Surface surface = new Surface(map);
+		// map.fillWithZeros(); commented this out, moving 
+		// tile creation to generatePerlineNoise()
 		
 		// generate noise in that map
 		// map.genMap();
-		map.generatePerlinNoise();
+		// map.generatePerlinNoise();
 		
 		// add that surface to the screen
 		add(surface);
