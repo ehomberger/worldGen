@@ -28,7 +28,7 @@ public class Surface extends JPanel
     {
     	this.map = map;
     }
-    
+
     // assign the colors to the map
     private void drawSurface(Graphics g) 
     {
