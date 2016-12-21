@@ -4,6 +4,7 @@ package graphics;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -17,75 +18,66 @@ import game.NoiseGen;
 import game.Tile;
 
 // we're just drawing the pixels here
+// JPanel is the thing inside the jframe that the world is drawn on
 public class Surface extends JPanel
 {
-    private Map map;    // this is used only for x*y size
-    private NoiseGen noise; // noise gen does the work
+    private Map map;    // Currently trying to use this as intended
 
     // Create a new map
     public Surface(Map map) 
     {
     	this.map = map;
-    	noise = new NoiseGen(map.xSize, map.ySize);
-    	noise.genMap();
     }
     
     // assign the colors to the map
-    private void doDrawing(Graphics g) 
+    private void drawSurface(Graphics g) 
     {
         // java stuff
         Graphics2D g2d = (Graphics2D) g;
 
         Color square;
+        Color tileColor;
         
         // Probably something in JPanel
         int screenWidth  = getWidth();
         int screenHeight = getHeight();
 
         // the size of the map we said we wanted to make
-        int mapWidth  = map.xSize;
-        int mapHeight = map.ySize;
+        double mapWidth  = map.xResolution;
+        double mapHeight = map.yResolution;
         
         // Size of the rectangles
-        int tileDrawWidth  = screenWidth  / mapWidth;
-        int tileDrawHeight = screenHeight / mapHeight;
+        double tileDrawWidth  = screenWidth  / mapWidth;
+        double tileDrawHeight = screenHeight / mapHeight;
         
         double space;
+        double tileValue;
 
-        for (int i = 0; i < mapHeight; i++) 
+        for (int y = 0; y < mapHeight; y++)
         {
-        	for (int j = 0; j < mapWidth; j++)
+            for (int x = 0; x < mapWidth; x++)
             {
-        		space = noise.getValue(j,  i);
-        		
-                if (space <= 1 && space > .505)
-                {
-        			square = Color.green;
-        		}
-        		else if (space <= .505 && space > .495)
-                {
-        			square = Color.yellow;
-        		}
-        		else if (space <= .495 && space > 0)
-                {
-        			square = Color.blue;
-        		}
-        		else
-                {
-        			square = Color.red;
-        		}
-        		
-        		g2d.setPaint(square);
-        	
-        		g2d.fillRect(j * tileDrawWidth, i * tileDrawHeight, tileDrawWidth, tileDrawHeight);
-        	}
+                // The commented code is useless, since Tile objects
+                // already have color assigned at instantiation
+                tileColor = map.getColor(x, y);
+
+                g2d.setPaint(tileColor);
+                
+                g2d.fill(new Rectangle2D.Double(
+                    x * tileDrawWidth, 
+                    y * tileDrawHeight, 
+                    tileDrawWidth, 
+                    tileDrawHeight)
+                );
+            }
         }
+
     }
 
     @Override
     public void paintComponent(Graphics g) 
     {
         super.paintComponent(g);
-        doDrawing(g);
+        drawSurface(g);
     }
 }
