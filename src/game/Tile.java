@@ -19,24 +19,33 @@ public class Tile {
 		"Undefined",
 		"Water",
 		"Sand",
+		"Grass",
 		"Stone",
-		"Grass"
+		"Snow"
 	};
 	public static final double[] TypeValues = 
 	{
-		0.0,
-		0.5,
-		0.55,
-		0.55, // this is just going to disable the stone/gray altogether
-		0.7
+		0.0,  // orange / error
+		0.51, // blue / water
+		0.55, // yellow / sand
+		0.78, // green / grass
+		0.82, // gray / stone
+		0.99  // white / snow
 	};
 	public static final Color[] TypeColors = 
 	{
-		Color.red,
-		Color.blue,
-		Color.yellow,
-		Color.gray,
-		Color.green
+		// Color.red,
+		// Color.blue,
+		// Color.yellow,
+		// Color.green,
+		// Color.gray,
+		// Color.white
+		new Color(213, 117, 0),	  // orangered
+		new Color(78, 97, 114),	  // blue
+		new Color(219, 202, 105), // yellow sand
+		new Color(102, 141, 60),  // green
+		new Color(169, 161, 140), // gray
+		Color.white
 	};
 
 	// Create an "Undefined" red tile at x, y
@@ -157,18 +166,26 @@ public class Tile {
 	public void setColor(double value)
 	{
 		double tileValue = value;
-		Color tileColor;
+		Color tileColor = Color.pink;
 
-        if( tileValue < TypeValues[0] )
-            tileColor = TypeColors[0];
-        else if( tileValue < TypeValues[1] )
-            tileColor = TypeColors[1];
-        else if( tileValue < Tile.TypeValues[2] )
-            tileColor = Tile.TypeColors[2];
-        else if( tileValue < Tile.TypeValues[3] )
-            tileColor = Tile.TypeColors[3];
-        else
-        	tileColor = Tile.TypeColors[4];
+		for( int i = 0; i < TypeValues.length; i++ )
+		{
+			if( value < TypeValues[i] ){
+				tileColor = TypeColors[i];
+				break;
+			}
+		}
+
+        // if( tileValue < TypeValues[0] )
+        //     tileColor = TypeColors[0];
+        // else if( tileValue < TypeValues[1] )
+        //     tileColor = TypeColors[1];
+        // else if( tileValue < Tile.TypeValues[2] )
+        //     tileColor = Tile.TypeColors[2];
+        // else if( tileValue < Tile.TypeValues[3] )
+        //     tileColor = Tile.TypeColors[3];
+        // else
+        // 	tileColor = Tile.TypeColors[4];
 
         color = tileColor;
 	}
@@ -191,3 +208,5 @@ public class Tile {
 		TileMap.put("Grass", Color.green);
 	}
 }
+
+

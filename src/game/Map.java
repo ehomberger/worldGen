@@ -36,7 +36,7 @@ public class Map
 		double average = 0;
 		double tiles = xResolution * yResolution;
 		float[][] whiteNoise  = Noise.generateWhiteNoise(xResolution, yResolution);
-		float[][] perlinNoise = Noise.generatePerlinNoise(whiteNoise, 6);
+		float[][] perlinNoise = Noise.generatePerlinNoise(whiteNoise, 8);
 
 		for(int i = 0; i < xResolution; i++)
 		{

@@ -18,6 +18,7 @@ import game.NoiseGen;
 import game.Tile;
 
 // we're just drawing the pixels here
+// JPanel is the thing inside the jframe that the world is drawn on
 public class Surface extends JPanel
 {
     private Map map;    // Currently trying to use this as intended
@@ -58,19 +59,6 @@ public class Surface extends JPanel
             {
                 // The commented code is useless, since Tile objects
                 // already have color assigned at instantiation
-                /*
-                tileValue = map.getValue(x, y);
-
-                if( tileValue < Tile.TypeValues[0] )
-                    tileColor = Tile.TypeColors[0];
-                else if( tileValue < Tile.TypeValues[1] )
-                    tileColor = Tile.TypeColors[1];
-                else if( tileValue < Tile.TypeValues[2] )
-                    tileColor = Tile.TypeColors[2];
-                else
-                    tileColor = Tile.TypeColors[3];
-                */
-
                 tileColor = map.getColor(x, y);
 
                 g2d.setPaint(tileColor);
