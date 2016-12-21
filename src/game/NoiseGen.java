@@ -10,16 +10,26 @@ public class NoiseGen
 {
 	private int xSize;					// map size? screen size?
 	private int ySize;					// probably map size
+	private Map map;
 	private Point [][] noiseMap;		// here lie the noise values
 	private final int DIFF = 5;			// out of 100
+
+
 	private Queue<Point> flood;			// a queue becasue queues are cool
 
 	public NoiseGen(int x, int y){
 		xSize = x;
 		ySize = y;
+		map = new Map(xSize, ySize);
 		noiseMap = new Point[xSize][ySize];
 		flood = new LinkedList();
         System.out.println("Created new NoiseGen w/ size = " + xSize + "x" + ySize);
+	}
+
+	// 
+	public void generateNoise()
+	{
+
 	}
 	
 	// where we generate the noise
