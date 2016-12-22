@@ -36,8 +36,8 @@ public class Surface extends JPanel
 
     public void generateNewPerlinMap(int xResolution, int yResolution)
     {
-        if(map == null)
-            map = new Map(xResolution, yResolution);
+        // if(map == null)
+        map = new Map(xResolution, yResolution);
         
         map.generatePerlinNoise();
     }

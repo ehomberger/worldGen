@@ -27,6 +27,9 @@ public class MainLoop extends JFrame
 	private JLabel  mapHeightLabel;
 	private JLabel  mapWidthLabel;
 
+	private JLabel  mapHeightDisplayLabel;
+	private JLabel  mapWidthDisplayLabel;
+
 	private JPanel 	mapPanel;
 	private JPanel  controlPanel;
 
@@ -62,8 +65,8 @@ public class MainLoop extends JFrame
 		redrawButton = new JButton("New Map");
 		mapHeightLabel = new JLabel("Height Resolution");
 		mapWidthLabel  = new JLabel("Width Resolution");
-		mapHeightTField = new JTextField();
-		mapWidthTField  = new JTextField();
+		mapHeightTField = new JTextField("" + MAP_HEIGHT);
+		mapWidthTField  = new JTextField("" + MAP_WIDTH);
 
 		redrawButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -82,6 +85,7 @@ public class MainLoop extends JFrame
 		controlPanel.add(mapHeightTField);
 		controlPanel.add(mapWidthTField);
 
+		// redraw button in upper left corner
 		redrawButton.setSize(90, 35);
 		redrawButton.setLocation(5, 40);
 
@@ -90,12 +94,36 @@ public class MainLoop extends JFrame
 		mapHeightLabel.setLocation(5, 100);
 		mapHeightTField.setSize(90, 25);
 		mapHeightTField.setLocation(5, 125);
+		mapHeightTField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				// do nothing
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				MAP_HEIGHT = Integer.parseInt( mapHeightTField.getText() );
+				mapHeightTField.setText("" + MAP_HEIGHT);
+			}
+		});
 
 		// Width Box components
 		mapWidthLabel.setSize(90, 35);
 		mapWidthLabel.setLocation(5, 150);
 		mapWidthTField.setSize(90, 25);
 		mapWidthTField.setLocation(5, 175);
+		mapWidthTField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				// do nothing
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				MAP_WIDTH = Integer.parseInt( mapWidthTField.getText() );
+				mapWidthTField.setText("" + MAP_WIDTH);
+			}
+		});
 
 		surface.setBounds(101, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		controlPanel.setBounds(0, 0, WINDOW_HEIGHT, 100);
