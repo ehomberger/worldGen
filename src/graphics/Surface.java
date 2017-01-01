@@ -5,10 +5,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 // Windows business
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -22,19 +26,23 @@ import game.Tile;
 public class Surface extends JPanel
 {
     private Map map;    // Currently trying to use this as intended
+    private BufferedImage image;
+    Graphics2D g2d;
+    private int saved = 0;
 
     // Create a new map
     public Surface(Map map) 
     {
     	this.map = map;
+    	
     }
     
     // assign the colors to the map
     private void drawSurface(Graphics g) 
     {
         // java stuff
-        Graphics2D g2d = (Graphics2D) g;
-
+        g2d = (Graphics2D) g;
+        
         Color square;
         Color tileColor;
         
@@ -61,6 +69,7 @@ public class Surface extends JPanel
                 // already have color assigned at instantiation
                 tileColor = map.getColor(x, y);
 
+                
                 g2d.setPaint(tileColor);
                 
                 g2d.fill(new Rectangle2D.Double(
@@ -71,9 +80,32 @@ public class Surface extends JPanel
                 );
             }
         }
-
+        if (saved == 0){
+        	saved = 1;
+        	save();
+        }
     }
-
+    
+    /**
+     * This function uses g2d to
+     * create a png file of the 
+     * current world
+     */
+	public void save(){
+		System.out.println("saving");
+		BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+	    g2d = bImg.createGraphics();
+	    this.paintAll(g2d);
+	    try {
+	            if (ImageIO.write(bImg, "png", new File("./latest.png")))
+	            {
+	                System.out.println("-- saved");
+	            }
+	    } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	    }
+	}
     @Override
     public void paintComponent(Graphics g) 
     {

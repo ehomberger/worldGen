@@ -1,12 +1,12 @@
 TODO:
 	* change terrain types to enum
-	* 
+	* Aloow saving of generated world
 
 Planned milestones:
 v0.00
 	v0.01(Done): the ability to view an array as a graphical map 
 	v0.02(Done): randomly generate map
-		v0.021: generate map using prebuilt noise
+		v0.021(Done by Carson): generate map using prebuilt noise
 		v0.022: add rivers
 		v0.023: randomly add houses
 	v0.03: Define random cities
