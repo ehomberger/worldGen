@@ -4,6 +4,7 @@ package graphics;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagLayout;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 // Windows business
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -28,21 +30,33 @@ public class Surface extends JPanel
     private Map map;    // Currently trying to use this as intended
     private BufferedImage image;
     Graphics2D g2d;
-    private int saved = 0;
+    private boolean show = true;
 
     // Create a new map
     public Surface(Map map) 
     {
     	this.map = map;
     	
+    	
     }
+    
+    
     
     // assign the colors to the map
     private void drawSurface(Graphics g) 
     {
         // java stuff
         g2d = (Graphics2D) g;
+        if (!show){
+        	
+        }
+        else{
+        	drawMap();
+        }
         
+    }
+    
+    private void drawMap(){
         Color square;
         Color tileColor;
         
@@ -79,10 +93,6 @@ public class Surface extends JPanel
                     tileDrawHeight)
                 );
             }
-        }
-        if (saved == 0){
-        	saved = 1;
-        	save();
         }
     }
     
