@@ -22,7 +22,9 @@ public class Map
 	public 	int yResolution;
 	private Tile[][] world;
 	
+	// create map from map file
 	public Map(String fileName){
+
 		Scanner in = null;
 		try {
 			in = new Scanner(new FileReader(fileName));
@@ -31,20 +33,24 @@ public class Map
 			e.printStackTrace();
 		}
 		
+		// FIX this first
 		xResolution = in.nextInt() - 5;
 		yResolution = in.nextInt();
 		world = new Tile[xResolution][yResolution];
 		
+		// here's the resolution
 		System.out.println(xResolution);
 		
+		// import this map
 		for(int i = 0; i < xResolution; i++){
 			for(int j = 0; j < yResolution; j++){
 				world[i][j] = new Tile(i, j, in.nextDouble());
 				System.out.println(world[i][j].value + " at " + i + ", " + j);
 			}
 		}
+
+		// 
 		System.out.println("leaving");
-		
 	}
 	
 	public Map(int x, int y)

@@ -32,21 +32,33 @@ public class Surface extends JPanel
     Graphics2D g2d;
     private boolean show = true;
 
-    // Create a new map
+    // Create a new surface from a pre-existing map
     public Surface(Map map) 
     {
     	this.map = map;
-    	
-    	
     }
-    
-    
-    
-    // assign the colors to the map
+
+    // Create surface with custom resolution, creates new map object same size
+    public Surface(int xResolution, int yResolution)
+    {
+        this.map = new Map(xResolution, yResolution);
+    }
+
+    public void generateNewPerlinMap(int xResolution, int yResolution)
+    {
+        // if(map == null)
+        map = new Map(xResolution, yResolution);
+        
+        map.generatePerlinNoise();
+    }
+
+    // Rename this and drawMap()
     private void drawSurface(Graphics g) 
     {
         // java stuff
         g2d = (Graphics2D) g;
+        
+        // what why
         if (!show){
         	
         }
@@ -56,6 +68,7 @@ public class Surface extends JPanel
         
     }
     
+    // Assign colors to this Jpanel with Graphics2D
     private void drawMap(){
         Color square;
         Color tileColor;
@@ -79,13 +92,13 @@ public class Surface extends JPanel
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                // The commented code is useless, since Tile objects
-                // already have color assigned at instantiation
+                // Get the tile's color
                 tileColor = map.getColor(x, y);
 
-                
+                // Paint with that color
                 g2d.setPaint(tileColor);
                 
+                // Put that rectangle on the panel
                 g2d.fill(new Rectangle2D.Double(
                     x * tileDrawWidth, 
                     y * tileDrawHeight, 
@@ -116,6 +129,7 @@ public class Surface extends JPanel
 	            e.printStackTrace();
 	    }
 	}
+
     @Override
     public void paintComponent(Graphics g) 
     {
