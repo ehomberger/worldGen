@@ -22,8 +22,8 @@ import graphics.Surface;
 public class MainLoop extends JFrame
 {
 	private Map map;
-	private static int MAP_HEIGHT = 200;
-	private static int MAP_WIDTH  = 200;
+	private static int MAP_HEIGHT = 400;
+	private static int MAP_WIDTH  = 400;
 	private final int MENU_HEIGHT = 200 + 16;
 	private final int MENU_WIDTH  = 400 + 39;
 	private final int WINDOW_HEIGHT = 800 + 16;
@@ -46,8 +46,6 @@ public class MainLoop extends JFrame
 		JButton create = new JButton("Create New World");
 		create.addActionListener(new ActionListener()
 		{
-			
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				remove(menu);
@@ -56,30 +54,56 @@ public class MainLoop extends JFrame
 			}
 		});
 		
+		JButton load = new JButton("load old world");
+		load.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				remove(menu);
+				map = new Map("saved");
+				showMap();
+			}
+		});
 		
 		menu.add(create);
+		menu.add(load);
 		
 		add(menu);
     }
 	
+	
 	private void newMap(){
-		
-		setTitle("WorldGen");
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// create a new map object
 		map = new Map(MAP_WIDTH, MAP_HEIGHT);
 		map.generatePerlinNoise();
-
+		
+		showMap();
+	}
+	
+	private void showMap(){
+		setTitle("WorldGen");
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// create a surface from that map
 		Surface surface = new Surface(map);
+		
+		JButton save = new JButton("Save This World!");
+		save.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				map.save();	
+			}
+		});
+		
+		surface.add(save);
 		
 		// add that surface to the screen
 		add(surface);
 	}
-
+	
 	// just the main loop
     public static void main(String[] args) 
 	{

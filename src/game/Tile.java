@@ -189,6 +189,10 @@ public class Tile {
 
         color = tileColor;
 	}
+	
+	public String toString(){
+		return Double.toString(this.value);
+	}
 
 	// ======================================================================
 	// Static Functions

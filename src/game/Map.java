@@ -1,10 +1,17 @@
 package game;
 
 import java.util.Random;
+import java.util.Scanner;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import util.Noise;
 
@@ -15,11 +22,57 @@ public class Map
 	public 	int yResolution;
 	private Tile[][] world;
 	
+	public Map(String fileName){
+		Scanner in = null;
+		try {
+			in = new Scanner(new FileReader(fileName));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		xResolution = in.nextInt() - 5;
+		yResolution = in.nextInt();
+		world = new Tile[xResolution][yResolution];
+		
+		System.out.println(xResolution);
+		
+		for(int i = 0; i < xResolution; i++){
+			for(int j = 0; j < yResolution; j++){
+				world[i][j] = new Tile(i, j, in.nextDouble());
+				System.out.println(world[i][j].value + " at " + i + ", " + j);
+			}
+		}
+		System.out.println("leaving");
+		
+	}
+	
 	public Map(int x, int y)
 	{
 		xResolution = x;
 		yResolution = y;
 		world = new Tile[xResolution][yResolution];
+	}
+	
+	public void save(){
+		PrintWriter out = null;
+		
+		try {
+			out = new PrintWriter("saved");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		out.println(xResolution + " " + yResolution);
+		
+		for(int i = 0; i < xResolution; i++){
+			for(int j = 0; j < yResolution; j++){
+				out.print(world[i][j] + " ");
+			}
+			out.print('\n');
+		}
+			
 	}
 
 	// Create map with all zeros
