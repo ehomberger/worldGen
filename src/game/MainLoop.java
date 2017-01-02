@@ -39,8 +39,8 @@ public class MainLoop extends JFrame
 
 	private static int MAP_HEIGHT = 50;
 	private static int MAP_WIDTH  = 50;
-	private final int WINDOW_HEIGHT = 800 + 16;
-	private final int WINDOW_WIDTH  = 1000 + 39;
+	private final int WINDOW_HEIGHT = 800;
+	private final int WINDOW_WIDTH  = 1000;
 	
 	// 
 	public MainLoop() 
@@ -132,12 +132,15 @@ public class MainLoop extends JFrame
 		// surface is a JPanel, add it to myself, a JFrame
 		add(surface);
 		add(controlPanel);
+
+		System.out.println("Map Panel Size: " + surface.getSize());
+		System.out.println("Menu Panel Size: " + controlPanel.getSize());
 	}
 
 	// just the main loop
     public static void main(String[] args) 
 	{
-		if( args.length != 0 )
+		if( args.length > 1 )
 		{
 			MAP_WIDTH  = Integer.parseInt( args[0] );
 			MAP_HEIGHT = Integer.parseInt( args[1] ); 
