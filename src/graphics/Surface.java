@@ -28,7 +28,20 @@ public class Surface extends JPanel
     {
     	this.map = map;
     }
-    
+
+    public Surface(int xResolution, int yResolution)
+    {
+        this.map = new Map(xResolution, yResolution);
+    }
+
+    public void generateNewPerlinMap(int xResolution, int yResolution)
+    {
+        // if(map == null)
+        map = new Map(xResolution, yResolution);
+        
+        map.generatePerlinNoise();
+    }
+
     // assign the colors to the map
     private void drawSurface(Graphics g) 
     {
