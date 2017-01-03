@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.File;
 
 import util.Noise;
 
@@ -24,33 +25,8 @@ public class Map
 	
 	// create map from map file
 	public Map(String fileName){
-
-		Scanner in = null;
-		try {
-			in = new Scanner(new FileReader(fileName));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		// FIX this first
-		xResolution = in.nextInt() - 5;
-		yResolution = in.nextInt();
-		world = new Tile[xResolution][yResolution];
-		
-		// here's the resolution
-		System.out.println(xResolution);
-		
-		// import this map
-		for(int i = 0; i < xResolution; i++){
-			for(int j = 0; j < yResolution; j++){
-				world[i][j] = new Tile(i, j, in.nextDouble());
-				System.out.println(world[i][j].value + " at " + i + ", " + j);
-			}
-		}
-
-		// 
-		System.out.println("leaving");
+		loadFromFile(fileName);
+		System.out.println("Created map from " + fileName);
 	}
 	
 	public Map(int x, int y)
@@ -60,26 +36,6 @@ public class Map
 		world = new Tile[xResolution][yResolution];
 	}
 	
-	public void save(){
-		PrintWriter out = null;
-		
-		try {
-			out = new PrintWriter("saved");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		out.println(xResolution + " " + yResolution);
-		
-		for(int i = 0; i < xResolution; i++){
-			for(int j = 0; j < yResolution; j++){
-				out.print(world[i][j] + " ");
-			}
-			out.print('\n');
-		}
-			
-	}
 
 	// Create map with all zeros
 	public void fillWithZeros()
@@ -134,130 +90,79 @@ public class Map
 			}
 		}
 	}
-
-	// Draw the map
-	public void generateNoise()
-	{
-		Queue<Tile> q = new LinkedList();
-		Random rand = new Random();
-		int x = rand.nextInt(xResolution);
-		int y = rand.nextInt(yResolution);
-		int currentx;
-		int currenty;
-
-		// used for finding what value we should give a tile
-		double sum;
-		int total;
-		int value;
-
-		Tile current = new Tile(x, y);
-		world[x][y] = current;
-
-		q.add(current);
-
-		while( !q.isEmpty() )
-		{
-			current = q.remove();
-			currentx = current.x;
-			currenty = current.y;
-
-			sum = 0.5;
-			total = 1;
-
-			// check that we're on the map
-			// We really shouldn't ever need to, but yea
-			if( currentx > 0 &&
-				currenty > 0 &&
-				currentx < xResolution - 1 &&
-				currenty < yResolution - 1 )
-			{
-			// if ( currentx >  0 )
-			// {
-				// check if the tile above us is initialized
-				if ( world[currentx-1][currenty] == null )
-				{
-					world[currentx-1][currenty] = new Tile(currentx-1, currenty);
-					q.add( world[currentx-1][currenty] );
-				}
-				else if ( world[currentx-1][currenty].value != 0 )
-				{
-					sum += world[currentx-1][currenty].value;
-					total ++;
-				}
-			// }
-			// if ( currentx < xResolution-1 )
-			// {
-				// check if the tile above us is initialized
-				if ( world[currentx+1][currenty] == null )
-				{
-					world[currentx+1][currenty] = new Tile(currentx+1, currenty);
-					q.add( world[currentx+1][currenty] );
-				}
-				else if ( world[currentx+1][currenty].value != 0 )
-				{
-					sum += world[currentx+1][currenty].value;
-					total ++;
-				}
-			// }
-			// if ( currenty > 0 )
-			// {
-				// check if the tile above us is initialized
-				if ( world[currentx][currenty+1] == null )
-				{
-					world[currentx][currenty+1] = new Tile(currentx, currenty+1);
-					q.add( world[currentx][currenty+1] );
-				}
-				else if ( world[currentx][currenty+1].value != 0 )
-				{
-					sum += world[currentx][currenty+1].value;
-					total ++;
-				}
-			// }
-			// if ( currenty < yResolution - 1 )
-			// {
-				// check if the tile above us is initialized
-				if ( world[currentx][currenty-1] == null )
-				{
-					world[currentx][currenty-1] = new Tile(currentx, currenty-1);
-					q.add( world[currentx][currenty-1] );
-				}
-				else if ( world[currentx][currenty-1].value != 0 )
-				{
-					sum += world[currentx][currenty-1].value;
-					total ++;
-				}
-			}
-
-			System.out.println("Added " + total + " tiles to the map");
-			world[currentx][currenty].value = sum / total;
-		}
-
-		System.out.println("Finished creating tiles");
-	}
-
-	// Create this map object with dimension
-	// This is old noise generation, doesn't do shit
-	public void genMap()
-	{
-		Random r = new Random();
-		
-		for (int y = 0; y < yResolution; y++)
-		{
-			for (int x = 0; x < xResolution; x++)
-			{
-				int type = Math.abs(r.nextInt()) % 3;
-				world[x][y] = new Tile(x, y, type);
-			}
-		}
-	}
 	
+
 	public Tile getTile(int x, int y){
 		return world[x][y];
 	}
+
 	public double getValue(int x, int y){
 		return world[x][y].value;
 	}
+
 	public Color getColor(int x, int y){
 		return world[x][y].getColor();
+	}
+
+	// Call this to save to 'saved' file
+	public void saveToFile(){
+			saveToFile("saved");
+	}
+
+	// Save this map to file with name
+	public void saveToFile(String fileName){
+		PrintWriter out = null;
+		
+		try {
+			out = new PrintWriter("saved");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		out.println(xResolution + " " + yResolution);
+		
+		for(int i = 0; i < xResolution; i++){
+			for(int j = 0; j < yResolution; j++){
+				out.print(world[i][j].value + " ");
+			}
+			out.print('\n');
+		}
+
+		out.close();
+
+		System.out.println("Saved");
+	}
+
+	// Import map from file
+	public void loadFromFile(String fileName) {
+		Scanner in;
+
+		try {
+			in = new Scanner(new File(fileName));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		}
+
+
+
+		// FIX this first
+		xResolution = in.nextInt();
+		yResolution = in.nextInt();
+		world = new Tile[xResolution][yResolution];
+		
+		// here's the resolution
+		System.out.println(xResolution + " " + yResolution);
+		
+		// import this map
+		for(int i = 0; i < xResolution; i++){
+			for(int j = 0; j < yResolution; j++){
+				world[i][j] = new Tile(i, j, in.nextDouble());
+				// System.out.println(world[i][j].value + " at " + i + ", " + j);
+			}
+		}
+
+		System.out.println("leaving");
 	}
 } // end of map class

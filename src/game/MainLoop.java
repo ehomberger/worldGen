@@ -53,46 +53,46 @@ public class MainLoop extends JFrame
 	// 
 	public MainLoop() 
 	{
+		surface = new Surface(MAP_HEIGHT, MAP_WIDTH);
 		initUI();
     }
 
 	// Set up UI
 	private void initUI() {
-// <<<<<<< HEAD
-		setTitle("WorldGen Menu");
-		setSize(MENU_WIDTH, MENU_HEIGHT);
-
-// =======
-// 		// Set up window properites
-// 		setTitle("WorldGen");
-// 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-// >>>>>>> origin/master
-		
 		// normal window requirements
+		setTitle("WorldGen Menu");
+		setSize(MENU_WIDTH, MENU_HEIGHT);		
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		JPanel menu = new JPanel(new GridBagLayout());
 		
 		// New world button
-		JButton create = new JButton("Create New World");
+		JButton create = new JButton("Create World");
 		create.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				remove(menu);
-				newMap();
+				surface.generateNewPerlinMap(MAP_WIDTH, MAP_HEIGHT);
+				surface.revalidate();
+				surface.repaint();
+				deployMainWindow();
 			}
 		});
 		
 		// load world button
-		JButton load = new JButton("load old world");
+		JButton load = new JButton("Load World");
 		load.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				//map = new Map("saved");
 				remove(menu);
-				map = new Map("saved");
-				showMap();
+				surface.loadFromFile("saved");
+				surface.revalidate();
+				surface.repaint();
+				deployMainWindow();
 			}
 		});
 		
@@ -100,7 +100,7 @@ public class MainLoop extends JFrame
 		menu.add(create);
 		menu.add(load);
 		
-		// add the panel to the frame
+		// add the panel to the frame	
 		add(menu);
     }
 	
@@ -108,22 +108,22 @@ public class MainLoop extends JFrame
 	private void newMap(){
 		
 		// create a new map object
-		map = new Map(MAP_WIDTH, MAP_HEIGHT);
-		map.generatePerlinNoise();
+		// map = new Map(MAP_WIDTH, MAP_HEIGHT);
+		// map.generatePerlinNoise();
 		
-		showMap();
+		deployMainWindow();
 	}
 	
 	// This creates the main screen with map and control panel
-	private void showMap(){
+	private void deployMainWindow(){
 		setTitle("WorldGen");
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// create a surface from that map
-		surface = new Surface(MAP_HEIGHT, MAP_WIDTH);
-		surface.generateNewPerlinMap(MAP_HEIGHT, MAP_WIDTH);
+		// surface = new Surface(MAP_HEIGHT, MAP_WIDTH);
+		// surface.generateNewPerlinMap(MAP_HEIGHT, MAP_WIDTH);
 
 		// Create the JComponents we need
 		controlPanel = new JPanel();
@@ -148,7 +148,8 @@ public class MainLoop extends JFrame
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				// event to do here
-				map.save();
+				surface.saveToFile();
+				surface.saveToImage();
 			}
 		});
 

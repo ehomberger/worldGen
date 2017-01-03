@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -114,7 +115,7 @@ public class Surface extends JPanel
      * create a png file of the 
      * current world
      */
-	public void save(){
+	public void saveToImage(){
 		System.out.println("saving");
 		BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 	    g2d = bImg.createGraphics();
@@ -129,6 +130,17 @@ public class Surface extends JPanel
 	            e.printStackTrace();
 	    }
 	}
+
+    // Save this map object to file
+    public void saveToFile(){
+        map.saveToFile();
+    }
+
+    // Load map from file, redraw this surface with that map
+    public void loadFromFile(String fileName){
+        map.loadFromFile(fileName);
+        // drawMap();
+    }
 
     @Override
     public void paintComponent(Graphics g) 
