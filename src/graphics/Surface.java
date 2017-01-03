@@ -148,4 +148,9 @@ public class Surface extends JPanel
         super.paintComponent(g);
         drawSurface(g);
     }
+
+    // get the map object
+    public Map getMap(){
+        return map;
+    }
 }

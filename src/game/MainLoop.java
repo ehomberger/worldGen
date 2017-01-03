@@ -24,7 +24,8 @@ public class MainLoop extends JFrame
 {
 	private JButton redrawButton;
 	private JButton saveButton;
-	
+	private JButton loadButton;
+
 	private JTextField mapWidthTField;
 	private JTextField mapHeightTField;
 	
@@ -92,6 +93,7 @@ public class MainLoop extends JFrame
 				surface.loadFromFile("saved");
 				surface.revalidate();
 				surface.repaint();
+				setResolutions();
 				deployMainWindow();
 			}
 		});
@@ -129,6 +131,7 @@ public class MainLoop extends JFrame
 		controlPanel = new JPanel();
 		redrawButton = new JButton("New Map");
 		saveButton 	 = new JButton("Save");
+		loadButton 	 = new JButton("Load");
 		mapHeightLabel = new JLabel("Height Resolution");
 		mapWidthLabel  = new JLabel("Width Resolution");
 		mapHeightTField = new JTextField("" + MAP_HEIGHT);
@@ -153,10 +156,26 @@ public class MainLoop extends JFrame
 			}
 		});
 
+		// load button
+		loadButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//map = new Map("saved");
+				surface.loadFromFile("saved");
+				surface.revalidate();
+				surface.repaint();
+				setResolutions();
+				mapHeightTField.setText("" + MAP_HEIGHT);
+				mapWidthTField.setText("" + MAP_WIDTH);
+			}
+		});
+
 		// Position all the JComponents
 		controlPanel.setLayout(null);
 		controlPanel.add(redrawButton);
 		controlPanel.add(saveButton);
+		controlPanel.add(loadButton);
 		controlPanel.add(mapHeightLabel);
 		controlPanel.add(mapWidthLabel);
 		controlPanel.add(mapHeightTField);
@@ -169,6 +188,10 @@ public class MainLoop extends JFrame
 		// save button in lowe right corner
 		saveButton.setSize(90, 35);
 		saveButton.setLocation(5, WINDOW_HEIGHT - 100);
+
+		// save button in lowe right corner
+		loadButton.setSize(90, 35);
+		loadButton.setLocation(5, WINDOW_HEIGHT - 150);
 
 		// Height Box components		
 		mapHeightLabel.setSize(90, 35);
@@ -217,6 +240,12 @@ public class MainLoop extends JFrame
 
 		System.out.println("Map Panel Size: " + surface.getSize());
 		System.out.println("Menu Panel Size: " + controlPanel.getSize());
+	}
+
+	// set the resolutions here from the surface
+	public void setResolutions(){
+		MAP_WIDTH = surface.getMap().yResolution;
+		MAP_HEIGHT = surface.getMap().xResolution;
 	}
 	
 	// just the main loop
