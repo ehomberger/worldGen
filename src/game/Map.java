@@ -163,6 +163,6 @@ public class Map
 			}
 		}
 
-		System.out.println("leaving");
+		System.out.println("Loaded");
 	}
 } // end of map class

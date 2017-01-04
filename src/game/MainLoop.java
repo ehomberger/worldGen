@@ -2,6 +2,8 @@ package game;
 
 import java.awt.EventQueue;
 import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -50,7 +52,8 @@ public class MainLoop extends JFrame
 	private final int WINDOW_HEIGHT = 800;
 	private final int WINDOW_WIDTH  = 1000;
 
-	
+	private static int CONTROL_PANEL_WIDTH = 100;
+
 	// 
 	public MainLoop() 
 	{
@@ -58,14 +61,15 @@ public class MainLoop extends JFrame
 		initUI();
     }
 
-	// Set up UI
+	// Show the main menu panel
 	private void initUI() {
 		// normal window requirements
 		setTitle("WorldGen Menu");
 		setSize(MENU_WIDTH, MENU_HEIGHT);		
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
+		// Create new jpanel for this menu
 		JPanel menu = new JPanel(new GridBagLayout());
 		
 		// New world button
@@ -75,6 +79,7 @@ public class MainLoop extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				remove(menu);
+
 				surface.generateNewPerlinMap(MAP_WIDTH, MAP_HEIGHT);
 				surface.revalidate();
 				surface.repaint();
@@ -88,8 +93,8 @@ public class MainLoop extends JFrame
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//map = new Map("saved");
 				remove(menu);
+
 				surface.loadFromFile("saved");
 				surface.revalidate();
 				surface.repaint();
@@ -105,29 +110,10 @@ public class MainLoop extends JFrame
 		// add the panel to the frame	
 		add(menu);
     }
-	
-	
-	private void newMap(){
 		
-		// create a new map object
-		// map = new Map(MAP_WIDTH, MAP_HEIGHT);
-		// map.generatePerlinNoise();
-		
-		deployMainWindow();
-	}
-	
-	// This creates the main screen with map and control panel
-	private void deployMainWindow(){
-		setTitle("WorldGen");
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// create a surface from that map
-		// surface = new Surface(MAP_HEIGHT, MAP_WIDTH);
-		// surface.generateNewPerlinMap(MAP_HEIGHT, MAP_WIDTH);
-
-		// Create the JComponents we need
+	// Set up the control panel jpanel and all of its features
+	private void initControlPanel(){
+		// Create all the Jcomponents
 		controlPanel = new JPanel();
 		redrawButton = new JButton("New Map");
 		saveButton 	 = new JButton("Save");
@@ -137,7 +123,7 @@ public class MainLoop extends JFrame
 		mapHeightTField = new JTextField("" + MAP_HEIGHT);
 		mapWidthTField  = new JTextField("" + MAP_WIDTH);
 
-		// redraw button
+		// Redraw button
 		redrawButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				// event to do here
@@ -147,7 +133,7 @@ public class MainLoop extends JFrame
 			}
 		});
 
-		// save button
+		// Save button
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				// event to do here
@@ -156,7 +142,7 @@ public class MainLoop extends JFrame
 			}
 		});
 
-		// load button
+		// Load button
 		loadButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -181,19 +167,19 @@ public class MainLoop extends JFrame
 		controlPanel.add(mapHeightTField);
 		controlPanel.add(mapWidthTField);
 
-		// redraw button in upper left corner
+		// Redraw button in upper left corner
 		redrawButton.setSize(90, 35);
 		redrawButton.setLocation(5, 40);
 
-		// save button in lowe right corner
+		// Save button in lower right corner
 		saveButton.setSize(90, 35);
 		saveButton.setLocation(5, WINDOW_HEIGHT - 100);
 
-		// save button in lowe right corner
+		// Load button in lower right corner
 		loadButton.setSize(90, 35);
 		loadButton.setLocation(5, WINDOW_HEIGHT - 150);
 
-		// Height Box components		
+		// Height Box / Label components		
 		mapHeightLabel.setSize(90, 35);
 		mapHeightLabel.setLocation(5, 100);
 		mapHeightTField.setSize(90, 25);
@@ -211,7 +197,7 @@ public class MainLoop extends JFrame
 			}
 		});
 
-		// Width Box components
+		// Width Box / Label components
 		mapWidthLabel.setSize(90, 35);
 		mapWidthLabel.setLocation(5, 150);
 		mapWidthTField.setSize(90, 25);
@@ -229,26 +215,48 @@ public class MainLoop extends JFrame
 			}
 		});
 
-		// set size of panels
-		surface.setBounds(101, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-		controlPanel.setBounds(0, 0, WINDOW_HEIGHT, 100);
-		
+
+		// Set the bounds of this panel
+		controlPanel.setBounds(0, 0, WINDOW_HEIGHT, CONTROL_PANEL_WIDTH);
+	}
+
+	// set up the surface jpanel
+	private void initSurfacePanel(){
+		// Set the bounds of this panel
+		surface.setBounds(CONTROL_PANEL_WIDTH, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	}
+
+	// This creates the main screen with map and control panel
+	private void deployMainWindow(){
+		setTitle("WorldGen");
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// Set up the control panel
+		initControlPanel();
+		initSurfacePanel();
+
 		// add that surface to the screen
 		// surface is a JPanel, add it to myself, a JFrame
 		add(surface);
 		add(controlPanel);
 
+		// Debug stuff
 		System.out.println("Map Panel Size: " + surface.getSize());
 		System.out.println("Menu Panel Size: " + controlPanel.getSize());
+
 	}
 
-	// set the resolutions here from the surface
+	// Set the x/yResolutions here from the surface
+	// NOTE: This is probably pretty janky and could use fixing/rethinking
 	public void setResolutions(){
 		MAP_WIDTH = surface.getMap().yResolution;
 		MAP_HEIGHT = surface.getMap().xResolution;
 	}
 	
-	// just the main loop
+	// Main loop, as expected
     public static void main(String[] args) 
 	{
 		if( args.length > 1 )
