@@ -124,7 +124,7 @@ public class Map
 		
 		for(int i = 0; i < xResolution; i++){
 			for(int j = 0; j < yResolution; j++){
-				out.print(world[i][j].value + " ");
+				out.printf("%.4f ", world[i][j].value);
 			}
 			out.print('\n');
 		}
